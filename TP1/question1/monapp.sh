@@ -2,11 +2,14 @@
 
 
 function afficherMenuPrincipale {
-    echo "Menu Principale"
+    echo -e "Menu Principale: \n"
     echo "#-Disque"
-    echo "$-Système"
-    echo "&-Rèseau"
-    echo "Z-Quitter"
+    echo "\$-Système"
+    echo "&-Reseau"
+    echo ":-Stocks"
+    echo -e "Z-Quitter \n"
+    echo "Veuillez entrer l'un des caractère dans le menu. Vous po"
+    
 }
 
 
