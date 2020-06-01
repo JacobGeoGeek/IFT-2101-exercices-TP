@@ -21,8 +21,8 @@ function verifierChoixUsager {
 }
 
 #************************************************************* 
-# Fonction : sousMenuDisque
-#  Objectif : permet d'afficher le sous menu du disque
+# Fonction : disquePartion
+#  Objectif : permet d'afficher les partition de disques
 # Notes  :  
 #*************************************************************
 function disquePartion {
@@ -44,6 +44,24 @@ function disquePartion {
             sousMenuDisque;
         fi
     fi
+}
+
+#************************************************************* 
+# Fonction : disqueRecherche
+#  Objectif : permet recherche un fichier contenant un mot mentionné par l'usager
+# Notes  :  
+#*************************************************************
+function disqueRecherche {
+    if [ -z "$1" ]; then
+        echo "pour la recherche veuillez entrer un mot";
+        sleep 5;
+        sousMenuDisque;
+    else
+        find ~/ -name *$1*;
+        sleep 5;
+        sousMenuDisque;
+    fi
+
 }
 
 #************************************************************* 
