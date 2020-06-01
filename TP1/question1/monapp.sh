@@ -94,12 +94,59 @@ function sousMenuDisque {
         esac  
     
     fi
-} 
+}
 
+#************************************************************* 
+# Fonction : systemeMoniteur
+#  Objectif : affiche les processus en execution ainsi que le detail des threads
+# Notes  :  
+#*************************************************************
+function systemeMoniteur {
+    top -H;
+    clear;
+    sousMenuSysteme;
+}
+
+#************************************************************* 
+# Fonction : systemTacgeRecyrrente
+#  Objectif : Affiche la liste des fichiers ouverts.
+# Notes  :  si peux egalenment specifier un nom service qu'on souhaite d'afficher les fichier 
+#            ouvert de celui-ci 
+#*************************************************************
+
+function systemTacgeRecyrrente {
+    echo "tache"
+}
+#************************************************************* 
+# Fonction : sousMenuSysteme
+#  Objectif : permet d'afficher le sous menu du Systeme
+# Notes  :  
+#*************************************************************
 function sousMenuSysteme {
-    echo "Menu System"
-    echo -e "$1"
-    echo -e "$2"
+    clear
+    if [ -n "$1" ]; 
+    then
+         case $1 in 
+            1) systemeMoniteur;;
+            2) systemTacgeRecyrrente $2;;
+            M) afficherMenuPrincipale;;
+            *) echo "l'option entrer, en seconde paramètre n'existe pas"
+               afficherMenuPrincipale;;
+        esac  
+    else
+        echo "Menu Système";
+        echo "1-Moniteur";
+        echo "2-Tâches récurrentes";
+        echo "M-Revenir";
+        
+        verifierChoixUsager
+        case $option in 
+            1) systemeMoniteur;;
+            2) systemTacgeRecyrrente $specification;;
+            M) afficherMenuPrincipale;;
+        esac  
+    
+    fi
 }
 
 function sousMenuReseau {
@@ -135,7 +182,7 @@ function quitterProgramme {
 function afficherMenuPrincipale {
     echo -e "Menu Principale: \n"
     echo "#-Disque"
-    echo "$-Système"
+    echo "\$-Système"
     echo "&-Reseau"
     echo ":-Stocks"
     echo -e "Z-Quitter \n"
