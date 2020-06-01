@@ -1,35 +1,72 @@
 #!/bin/bash
 
+
+#************************************************************* 
+# Fonction : verifierChoixUsager
+#  Objectif : verifie l'option que l'usager a choisie dans un sous-menu
+# Notes  :  cette fonction s'applique seulement pour les sous-menus: Disque, Système 
+#*************************************************************
+function verifierChoixUsager {
+        local choixEstValide=false
+        while !($choixEstValide)
+        do
+            echo -e "Veuillez choisir l'un des 3 options: \c"
+            read option specification
+            if [[ $option -eq 1 || $option -eq 2 || $option = M ]];
+            then
+                choixEstValide=true;
+            else echo "votre choix ne fais pas partie de la liste. Veuillez recommencez";
+           fi  
+        done 
+}
+
 #************************************************************* 
 # Fonction : sousMenuDisque
-#  Objectif : permet de quitter le programme monapp et revenir au prompt 
+#  Objectif : permet d'afficher le sous menu du disque
+# Notes  :  
+#*************************************************************
+function disquePartion {
+    if [ -z "$1" ];
+    then
+        fdisk -l;
+    else
+        local pathPartition=~/dev/$1
+        if [ -e $pathPartition ];
+        then
+            fdisk -l $pathPartition;
+        else 
+            echo "La partion n'existe pas.";
+            afficherMenuPrincipale;
+        fi
+    fi
+}
+
+#************************************************************* 
+# Fonction : sousMenuDisque
+#  Objectif : permet d'afficher le sous menu du disque
 # Notes  :  
 #*************************************************************
 function sousMenuDisque {
-    if [ -n "$1"]; 
+    clear
+    if [ -n "$1" ]; 
     then
-        #TODO
+         case $1 in 
+            1) disquePartion $2;;
+            2) disqueRecherche $2;;
+            M) afficherMenuPrincipale;;
+            *) echo "l'option entrer, en seconde paramètre n'existe pas"
+               afficherMenuPrincipale;;
+        esac  
     else
         echo "Menu Disque";
         echo "1-Partition";
         echo "2-Recherce";
         echo "M-Revenir";
         
-        local choixEstValide=false
-        while !($choixEstValide)
-        do
-            echo -e "Veuillez choisir l'un des 5 options: \c"
-            read option demande
-            if [[ $option -eq 1 || $option -eq 2 || "$option" = "M" ]];
-            then
-                choixEstValide=true;
-            else echo "votre choix ne fais pas partie de la liste. Veuillez recommencez";
-           fi  
-        done 
-
-        case $choixSousMenu in 
-            1) disquePartion $demande;;
-            2) disqueRecherche $demande;;
+        verifierChoixUsager
+        case $option in 
+            1) disquePartion $specification;;
+            2) disqueRecherche $specification;;
             M) afficherMenuPrincipale;;
         esac  
     
