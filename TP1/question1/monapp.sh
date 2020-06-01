@@ -29,14 +29,19 @@ function disquePartion {
     if [ -z "$1" ];
     then
         fdisk -l;
+        sleep 5
+        sousMenuDisque;
     else
-        local pathPartition=~/dev/$1
+       local pathPartition=/dev/$1
+       echo $pathPartition
         if [ -e $pathPartition ];
         then
             fdisk -l $pathPartition;
+            sleep 5;
+            sousMenuDisque;
         else 
             echo "La partion n'existe pas.";
-            afficherMenuPrincipale;
+            sousMenuDisque;
         fi
     fi
 }
