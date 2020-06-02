@@ -10,9 +10,27 @@ function verifierChoixUsager {
         local choixEstValide=false
         while !($choixEstValide)
         do
-            echo -e "Veuillez choisir l'un des 3 options: \c"
+            echo -e "Veuillez choisir l'une des 3 option: \c"
             read option specification
             if [[ $option -eq 1 || $option -eq 2 || $option = M ]];
+            then
+                choixEstValide=true;
+            else echo "votre choix ne fais pas partie de la liste. Veuillez recommencez";
+           fi  
+        done 
+}
+#************************************************************* 
+# Fonction : verifierChoixUsagerReseau
+#  Objectif : verifie l'option que l'usager a choisie dans un sous-menu
+# Notes  :  cette fonction s'applique seulement pour le sous-menu reseau
+#*************************************************************
+function verifierChoixUsagerReseau {
+        local choixEstValide=false
+        while !($choixEstValide)
+        do
+            echo -e "Veuillez choisir l'une des 5 options: \c"
+            read option
+            if [[ $option -eq 1 || $option -eq 2 || $option -eq 3  || $option -eq 4 || $option -eq 5  || $option = M ]];
             then
                 choixEstValide=true;
             else echo "votre choix ne fais pas partie de la liste. Veuillez recommencez";
@@ -159,10 +177,97 @@ function sousMenuSysteme {
     fi
 }
 
+#************************************************************* 
+# Fonction : socketEcoute
+#  Objectif : lister tous les ports ouverts en écoute sur le serveur
+# Notes  :  
+#*************************************************************
+function socketEcoute {
+    
+}
+
+#************************************************************* 
+# Fonction : pageDistance
+#  Objectif : Affiche une question qui demande une adresse IP ou un domaine.
+#             Une fois que l'utilisateur l'a fourni, le script va y quérir 
+#               une page web et affiche son contenu HTML. 
+# Notes  :  
+#*************************************************************
+function pageDistance {
+    echo "page distance"
+}
+
+#************************************************************* 
+# Fonction : connectionReseau
+#  Objectif :  Affiche les 10 dernières connexions réseau
+# Notes  :  Le tout se fait à l'aide d'une boucle et 
+#           de netstat et se rafraichit à chaque 5 secondes.
+#*************************************************************
+function connectionReseau {
+    echo "Connection Reseau"
+}
+
+#************************************************************* 
+# Fonction : reponseReseau
+#  Objectif :Affiche une question qui demande un nom de domaine 
+#            ou une adresse. Demande ensuite le nombre de vérifications à faire. 
+#            Puis fait un ping sur cette adresse pour le nombre de vérifications donné. 
+# Notes  : 
+#*************************************************************
+function reponseReseau {
+    echo "Reponse Reseau"
+}
+
+#************************************************************* 
+# Fonction : cleSPF
+#  Objectif  Affiche une question qui demande un nom de domaine et 
+#           une fois que l'utilisateur l'a fourni, le script affiche 
+#           la clé spf des RR de type txt pour ce domaine.  
+# Notes  : 
+#*************************************************************
+function cleSPF {
+    echo "Cle SPF"
+}
+
+
+#************************************************************* 
+# Fonction : sousMenuReseau
+#  Objectif : permet d'afficher le sous menu de reseau
+# Notes  :  
+#*************************************************************
 function sousMenuReseau {
-    echo "Menu Reseau"
-    echo -e "$1"
-    echo -e "$2"
+    clear
+    if [ -n "$1" ]; 
+    then
+         case $1 in 
+            1) socketEcoute;;
+            2) pageDistance;;
+            3) connectionReseau;;
+            4) reponseReseau;;
+            5) cleSPF;;
+            M) afficherMenuPrincipale;;
+            *) echo "l'option entrer, en seconde paramètre n'existe pas"
+               afficherMenuPrincipale;;
+        esac  
+    else
+        echo "Menu Système";
+        echo "1-Socket en écoute (LISTENING) localement ";
+        echo "2-Connexions réseau";
+        echo "4-Réponse réseau";
+        echo "5-Clé SPF";
+        echo "M-Revenir";
+        
+        verifierChoixUsagerReseau;
+        case $option in 
+            1) socketEcoute;;
+            2) pageDistance;;
+            3) connectionReseau;;
+            4) reponseReseau;;
+            5) cleSPF;;
+            M) afficherMenuPrincipale;;
+        esac  
+
+    fi
 }
 
 function sousMenuStocks {
