@@ -115,7 +115,17 @@ function systemeMoniteur {
 #*************************************************************
 
 function systemTacgeRecyrrente {
-    echo "tache"
+    if [ -z "$1" ];
+    then
+        lsof;
+        sleep 5;
+        sousMenuSysteme;     
+    else
+        lsof | grep $1; 
+        sleep 5;
+        sousMenuSysteme;
+    fi
+    
 }
 #************************************************************* 
 # Fonction : sousMenuSysteme
