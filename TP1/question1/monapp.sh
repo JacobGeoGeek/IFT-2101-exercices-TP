@@ -47,21 +47,17 @@ function disquePartion {
     if [ -z "$1" ];
     then
         fdisk -l;
-        sleep 5
-        sousMenuDisque;
     else
        local pathPartition=/dev/$1
-       echo $pathPartition
         if [ -e $pathPartition ];
         then
             fdisk -l $pathPartition;
-            sleep 5;
-            sousMenuDisque;
         else 
             echo "La partion n'existe pas.";
-            sousMenuDisque;
         fi
     fi
+    sleep 5;
+    sousMenuDisque;
 }
 
 #************************************************************* 
@@ -71,15 +67,12 @@ function disquePartion {
 #*************************************************************
 function disqueRecherche {
     if [ -z "$1" ]; then
-        echo "pour la recherche veuillez entrer un mot";
-        sleep 5;
-        sousMenuDisque;
+        echo "pour la recherche, vous devez entrer un mot entrer un mot";
     else
         find ~/ -name *$1*;
-        sleep 5;
-        sousMenuDisque;
     fi
-
+    sleep 5;
+    sousMenuDisque;
 }
 
 #************************************************************* 
@@ -126,23 +119,21 @@ function systemeMoniteur {
 }
 
 #************************************************************* 
-# Fonction : systemTacgeRecyrrente
+# Fonction : systemeTacheRecurrente
 #  Objectif : Affiche la liste des fichiers ouverts.
 # Notes  :  si peux egalenment specifier un nom service qu'on souhaite d'afficher les fichier 
 #            ouvert de celui-ci 
 #*************************************************************
 
-function systemTacgeRecyrrente {
+function systemeTacheRecurrente {
     if [ -z "$1" ];
     then
-        lsof;
-        sleep 5;
-        sousMenuSysteme;     
+        lsof;  
     else
         lsof | grep $1; 
-        sleep 5;
-        sousMenuSysteme;
     fi
+    sleep 5;
+    sousMenuSysteme;   
     
 }
 #************************************************************* 
@@ -156,7 +147,7 @@ function sousMenuSysteme {
     then
          case $1 in 
             1) systemeMoniteur;;
-            2) systemTacgeRecyrrente $2;;
+            2) systemeTacheRecurrente $2;;
             M) afficherMenuPrincipale;;
             *) echo "l'option entrer, en seconde paramètre n'existe pas"
                afficherMenuPrincipale;;
@@ -170,7 +161,7 @@ function sousMenuSysteme {
         verifierChoixUsager
         case $option in 
             1) systemeMoniteur;;
-            2) systemTacgeRecyrrente $specification;;
+            2) systemeTacheRecurrente $specification;;
             M) afficherMenuPrincipale;;
         esac  
     
@@ -183,7 +174,9 @@ function sousMenuSysteme {
 # Notes  :  
 #*************************************************************
 function socketEcoute {
-    
+    netstat;
+    sleep 5;
+    sousMenuReseau;  
 }
 
 #************************************************************* 
@@ -194,7 +187,12 @@ function socketEcoute {
 # Notes  :  
 #*************************************************************
 function pageDistance {
-    echo "page distance"
+    echo -e "Veuillez entrer une adresse IP ou un nom de domaine: \c";
+    read url;
+    echo -e "GET /" | nc $url 80;
+    sleep 5;
+    sousMenuReseau; 
+
 }
 
 #************************************************************* 
@@ -204,7 +202,22 @@ function pageDistance {
 #           de netstat et se rafraichit à chaque 5 secondes.
 #*************************************************************
 function connectionReseau {
-    echo "Connection Reseau"
+    local usagerVeuxQuitter=false;
+    while true;
+    do
+    clear;
+    
+    netstat -an | tail -10;
+    echo "pour quitter, veuillez entrer le 0"
+    read sortie    
+    sleep 5;
+    #TO CHECK
+    if [ $sortie -eq 0]; 
+    then
+        $usagerVeuxQuitter=true;
+    fi     
+    done
+    sousMenuReseau;
 }
 
 #************************************************************* 
@@ -215,7 +228,13 @@ function connectionReseau {
 # Notes  : 
 #*************************************************************
 function reponseReseau {
-    echo "Reponse Reseau"
+    echo -e "Veuillez entrer une adresse IP ou un nom de domaine: \c";
+    read url;
+    echo -e "Veuillez entrer le nombre de verification a faire: \c";
+    read nbVerication;
+    ping -c$nbVerication $url;
+    sleep 5;
+    sousMenuReseau;
 }
 
 #************************************************************* 
@@ -226,7 +245,11 @@ function reponseReseau {
 # Notes  : 
 #*************************************************************
 function cleSPF {
-    echo "Cle SPF"
+    echo -e "Veuillez entrer un nom de domaine: \c";
+    read domaine;
+    dig -t TXT $domaine;
+    sleep 5;
+    sousMenuReseau;
 }
 
 
@@ -252,7 +275,8 @@ function sousMenuReseau {
     else
         echo "Menu Système";
         echo "1-Socket en écoute (LISTENING) localement ";
-        echo "2-Connexions réseau";
+        echo "2-Page distante"
+        echo "3-Connexions réseau";
         echo "4-Réponse réseau";
         echo "5-Clé SPF";
         echo "M-Revenir";
