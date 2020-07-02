@@ -39,6 +39,25 @@ function verifierChoixUsagerReseau {
 }
 
 #************************************************************* 
+# Fonction : verifierChoixUsagerTransfert
+#  Objectif : verifie l'option que l'usager a choisie dans un sous-menu
+# Notes  :  cette fonction s'applique seulement pour le sous-menu  fichier transfert
+#*************************************************************
+function verifierChoixUsagerTransfert {
+        local choixEstValide=false
+        while !($choixEstValide)
+        do
+            echo -e "Veuillez choisir l'une des 5 options: \c"
+            read option
+            if [[ $option -eq 1 || $option -eq 2 || $option -eq 3  || $option -eq 4 || $option = M ]];
+            then
+                choixEstValide=true;
+            else echo "votre choix ne fais pas partie de la liste. Veuillez recommencez";
+           fi  
+        done 
+}
+
+#************************************************************* 
 # Fonction : disquePartion
 #  Objectif : permet d'afficher les partition de disques
 # Notes  :  
@@ -294,10 +313,80 @@ function sousMenuReseau {
     fi
 }
 
-function sousMenuStocks {
+#************************************************************* 
+# Fonction : transfertFile
+#  Objectif : permet d'envoyer un fichier
+# Notes  :  
+#*************************************************************
+function transfertFile {
+   echo -e "Veuillez entrer l'addresse IP de la machine a connecter: \c";
+   read adresseIp;
+   echo -e "Veuillez entrer le nom usager: \c";
+   read user;
+   echo -e "Veuillez entrer le path du fhicher: \c";
+   read pathFile
+   echo -e "Veuillez entrer le path de destination: \c";
+   read pathDestination
+
+   scp ~/$pathFile $user@adresseIp:$pathDestination;
+
+   sousMenuTransfert
+
+}
+
+#************************************************************* 
+# Fonction : receviceFile
+#  Objectif : permet de recevoir un fichier
+# Notes  :  
+#*************************************************************
+function receviceFile {
+   echo -e "Veuillez entrer l'addresse IP de la machine a connecter: \c";
+   read adresseIp;
+   echo -e "Veuillez entrer le nom usager: \c";
+   read user;
+   echo -e "Veuillez entrer le path du fhicher: \c";
+   read pathFile
+   echo -e "Veuillez entrer le path de destination: \c";
+   read pathDestination
+
+   scp $user@adresseIp:$pathDestination ~/$pathFile;
+
+   sousMenuTransfert
+
+}
+
+
+#************************************************************* 
+# Fonction : sousMenuTransfert
+#  Objectif : permet d'afficher le sous menu Transfert de fichier
+# Notes  :  
+#*************************************************************
+function sousMenuTransfert {
+    clear
+    if [ -n "$1" ]; 
+    then
+         case $1 in 
+            1) receviceFile;;
+            2) transfertFile;;
+            M) afficherMenuPrincipale;;
+            *) echo "l'option entrer, en seconde paramètre n'existe pas"
+               afficherMenuPrincipale;;
+        esac  
+    else
+        echo "Menu Transfert fichier";
+        echo "1-Revevoir un fichier (remote to local)";
+        echo "2-Envoyer un fichier (local to remote)";
+        echo "M-Revenir";
+        
+        verifierChoixUsager;
+        case $option in 
+            1) receviceFile;;
+            2) transfertFile;;
+            M) afficherMenuPrincipale;;
+        esac  
+
+    fi
     
-    echo -e "$1"
-    echo -e "$2"
 }
 
 #************************************************************* 
@@ -323,7 +412,7 @@ function afficherMenuPrincipale {
     echo "#-Disque"
     echo "\$-Système"
     echo "&-Reseau"
-    echo ":-Stocks"
+    echo ":-Transfert Fichiers"
     echo -e "Z-Quitter \n"
     
 
@@ -343,7 +432,7 @@ function afficherMenuPrincipale {
     "#") sousMenuDisque $programmeExecute;;
     "$") sousMenuSysteme $programmeExecute;;
     "&") sousMenuReseau $programmeExecute;;
-    ":") sousMenuStocks $programmeExecute;;
+    ":") sousMenuTransfert $programmeExecute;;
     "Z") quitterProgramme;;
     esac
     

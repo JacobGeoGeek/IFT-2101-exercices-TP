@@ -6,12 +6,10 @@ $TTL 2D
                             1W     ;expiration period          
                             2D     ;minimum TTL
                         )
-              IN NS ns1.ventoute.ca. 
-              IN NS ns2.ventoute.ca. 
 
-250 IN PTR ventoute.ca.
-200 IN PTR paiement.ventoute.ca. 
-55 IN PTR courriers.ventoute.ca. 
-77 IN PTR webmail.ventoute.ca. 
-88 IN PTR vpn.webmail.ventoute.ca 
-9 IN PTR ns2.ventoute.ca. 
+      IN NS ns1.ventoute.ca. 
+      IN NS ns2.ventoute.ca. 
+
+
+99.70 IN PTR sgbd.ventoute.local. 
+1.0   IN PTR passerelle.ventoute.local. 

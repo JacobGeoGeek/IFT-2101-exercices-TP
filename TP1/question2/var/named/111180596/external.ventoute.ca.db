@@ -1,0 +1,32 @@
+$TTL 2D
+@ in soa ns1.ventoute.ca. jacob.chaar.ventoute.ca. ( 
+                            2020070601      ;serial (version)
+                            3H     ;refresh period
+                            15M    ;retry refresh this often          
+                            1W     ;expiration period          
+                            2D     ;minimum TTL
+                        ) 
+
+                          IN NS ns1.ventoute.ca. 
+                          IN NS ns2.ventoute.ca. 
+
+ventoute.ca.  IN A  174.26.10.250
+
+vtquebec.com IN CNAME ventoute.ca.
+www IN CNAME    ventoute.ca. 
+
+paiements IN A 174.26.10.200 
+paiments.dmz IN A 192.168.51.99
+
+webmail IN A 174.26.10.77
+courrielweb IN CNAME webmail 
+
+              IN MX 10 courriers.ventoute.ca.
+              IN MX 20 courriers.vtquebec.ca.
+courriers.ventoute.ca. IN A 174.26.10.55  
+courriers.vtquebec.ca. IN A 174.26.10.55 
+
+vpn IN A 174.26.10.88
+
+ns1 IN A 127.0.0.1 
+ns2 IN A 174.26.10.9  

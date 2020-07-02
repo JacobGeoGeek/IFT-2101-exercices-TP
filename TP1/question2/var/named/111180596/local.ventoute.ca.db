@@ -1,17 +1,15 @@
 $TTL 2D
-@ in soa ns1.ventoute.ca. jacob.chaar.ventoute.ca. ( 
+@ in soa ns1.ventoute.local. jacob.chaar.ventoute.ca. ( 
                             2020070601      ;serial (version)
                             3H     ;refresh period
                             15M    ;retry refresh this often          
                             1W     ;expiration period          
                             2D     ;minimum TTL
                         )
-              IN NS ns1.ventoute.ca. 
-              IN NS ns2.ventoute.ca. 
 
-250 IN PTR ventoute.ca.
-200 IN PTR paiement.ventoute.ca. 
-55 IN PTR courriers.ventoute.ca. 
-77 IN PTR webmail.ventoute.ca. 
-88 IN PTR vpn.webmail.ventoute.ca 
-9 IN PTR ns2.ventoute.ca. 
+
+                          IN NS ns1.ventoute.ca. 
+                          IN NS ns2.ventoute.ca. 
+
+sgbd IN A 10.10.70.99
+passerelle IN A 10.10.0.1

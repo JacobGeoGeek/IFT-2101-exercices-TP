@@ -1,0 +1,16 @@
+$TTL 2D
+@ in soa ns1.fauxgoogle.com. jacob.chaar.fauxgoogle.com. (
+                                    2020062402 ; serial (version)
+                                    3H     ;refresh period
+                                    15M    ;retry refresh this often          
+                                    1W     ;expiration period          
+                                    2D     ;minimum TTL
+                                    )
+
+                                    IN NS ns1.fauxgoogle.com.
+                                    IN NS ns2.fauxgoogle.com.
+205 IN PTR fauxgoogle.com.
+205 IN PTR ftp.fauxgoogle.com.
+205 IN PTR mymail.fauxgoogle.com.
+205 IN PTR ns1.fauxgoogle.com.
+205 IN PTR ns2.fauxgoogle.com.
