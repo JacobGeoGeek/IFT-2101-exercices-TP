@@ -1,0 +1,1 @@
+CREATE TABLE `bd_courriels`.`courriel` ( `idCourriel` INT NOT NULL AUTO_INCREMENT , `loginUtilisateur` VARCHAR(10) NOT NULL , `adresseCourriel` VARCHAR(70) NOT NULL , `noStatutApprobationCourriel` INT NOT NULL , PRIMARY KEY (`idCourriel`), UNIQUE `adresseCourriel_unique` (`adresseCourriel`)) ENGINE = InnoDB;
