@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Connexion</title>
 </head>
 <body>
-$END$
+<h1>connexion</h1>
+<form action="/courrielutil/"></form>
 </body>
 </html>
