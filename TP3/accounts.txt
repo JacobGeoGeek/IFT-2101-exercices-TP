@@ -1,0 +1,2 @@
+userAdmin ift-2101-admin
+userReg ift-2101-reg

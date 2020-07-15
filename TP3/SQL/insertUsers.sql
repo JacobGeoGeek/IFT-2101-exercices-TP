@@ -1,0 +1,1 @@
+INSERT INTO `bd_courriels`.`utilisateur` (`loginUtilisateur`, `mdpUtil`, `prenomUtil`, `nomUtil`, `courrielUtil`, `typeUtil`) VALUES ('userAdmin', MD5('ift-2101-admin'), 'alpha', 'bravo', 'alphabravo@fauxgoogle.com', 'Administrateur'), ('userReg', MD5('ift-2101-reg'), 'charlie', 'delta', 'charliedelta@fauxgoogle.com', 'Régulier')

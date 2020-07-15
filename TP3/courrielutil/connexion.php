@@ -2,29 +2,32 @@
 error_reporting(-1);
 ini_get('display_errors','On');
 include 'logique/Init.php';
-include 'logique/Erreurs.php';
 session_start();
-$db;
-$erreurs = new Erreurs();
 try {
     $db = new Init();
-
     if (isset($_POST["Connecter"])){
-        $db->connexion($_POST["userName"],$_POST["password"]);
+        $result = $db->connexion($_POST["userName"],$_POST["password"]);
+        $db->fermeConnection();
 
-        if (!$_SESSION["userExist"]){
-            $erreurs->doesNotExist();
+        if ($result === false){
+           echo ift-2101-reg;
         }
-        if (strcmp($_SESSION["typeUtil"],"Régulier")){
-            header("Location:listeCourriel.php");
-        }
-        if (strcmp($_SESSION["typeUtil"],"Administrateur")) {
+        else if ($result->typeUtil === "Régulier"){
+            $_SESSION["nomUser"] = $result->nomUtil;
+            $_SESSION["prenomUser"] = $result->prenomUtil;
             header("Location:inscriptionCourriel.php");
+
+        }
+        else if ($result->typeUtil ==="Administrateur") {
+            $_SESSION["nomUser"] = $result->nomUtil;
+            $_SESSION["prenomUser"] = $result->prenomUtil;
+            header("Location:listeCourriel.php");
+
         }
     }
 }
 catch (Exception $ex) {
-    $erreurs->afficherErreurTechniq($ex->getMessage());
+   printf("connection Failed: %s\n",$ex->getMessage());
 }
 ?>
 
@@ -38,7 +41,7 @@ catch (Exception $ex) {
 <h1>connexion</h1>
 <form action="connexion.php" method="post">
     <input type="text" name="userName" id="userName" required placeholder="Nom d'usager">
-    <input type="password" name="password" id="userName" required placeholder="Mot de passe">
+    <input type="password" name="password" id="password" required placeholder="Mot de passe">
     <input type="submit" name="Connecter" value="Connecter">
 </form>
 </body>
