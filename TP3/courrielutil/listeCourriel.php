@@ -4,10 +4,20 @@ error_reporting(-1);
 ini_get('display_errors','On');
 include 'logique/Init.php';
 
-if (isset($_GET["approuve"])){
+if(!isset($_SESSION['logIn']) || $_SESSION['logIn'] !== "logAsAdmin"){
+    session_destroy();
+    header("Location:connexion.php");
+}
+
+if(isset($_GET["deconnecter"])){
+    session_destroy();
+    header("Location:connexion.php");
+}
+
+elseif (isset($_GET["approuve"])){
     updateEtatCourriel("Approuvé",$_GET["approuve"]);
 }
-if (isset($_GET["refuser"])){
+elseif (isset($_GET["refuser"])){
     updateEtatCourriel("Refusé",$_GET["refuser"]);
 }
 
@@ -49,6 +59,8 @@ function updateEtatCourriel($status,$courriel){
 </head>
 <body>
 <h1>Bienvenue <?php echo $_SESSION["prenomUser"]. " " . $_SESSION["nomUser"]?></h1>
+<a href="?deconnecter">Déconnecté</a>
+
 <h3> Liste des adresses à approuver</h3>
 <table style="width:100%">
     <tr>
@@ -74,8 +86,8 @@ function updateEtatCourriel($status,$courriel){
 
 </table>
 <h3>Liste des courriels existants</h3>
+<ul>
 <?php
-echo "<ul>\n";
 try {
     $db = new Init();
     $emails = $db->courrielApprouver();
@@ -89,13 +101,9 @@ catch (Exception $ex) {
     printf($ex->getMessage());
 }
 
-echo "</u>\n";
+
 
 ?>
-<br>
-<form action="deconnecter.php" method="post">
-    <button type="submit">Déconnecter</button>
-</form>
-
+</ul>
 </body>
 </html>

@@ -110,5 +110,34 @@ class Init
         return $liste;
     }
 
+    public function ajoutStatusCourriel(){
+        $query = "INSERT INTO statutApprobation (descStatut) VALUES ('$this->attente')";
+        $result = $this->sql->query($query);
+
+        if($result === true){
+            return $this->sql->insert_id;
+        }
+
+        return -1;
+    }
+
+    public function ajoutCourriel($userName, $fullEmail, $StatusId)
+    {
+        $query = "SELECT * FROM courriel WHERE adresseCourriel = '$fullEmail'";
+        $nbRow = $this->sql->query($query)->num_rows;
+
+        if ($nbRow == 1){
+            return false;
+        }
+
+        $query = "INSERT INTO courriel (loginUtilisateur,adresseCourriel,noStatutApprobationCourriel) VALUES ('$userName', '$fullEmail', '$StatusId')";
+        $result = $this->sql->query($query);
+
+        if($result === true){
+            return true;
+        }
+        return false;
+    }
+
 }
 ?>

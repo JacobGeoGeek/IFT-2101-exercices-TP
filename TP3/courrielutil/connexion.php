@@ -10,19 +10,21 @@ try {
         $db->fermeConnection();
 
         if ($result === false){
-           echo ift-2101-reg;
+           echo "impossible de ce connecter. vérifier que le nom d'usager ou le mot de passe sont correct";
         }
         else if ($result->typeUtil === "Régulier"){
             $_SESSION["nomUser"] = $result->nomUtil;
             $_SESSION["prenomUser"] = $result->prenomUtil;
+            $_SESSION['loginUtilisateur'] = $result->loginUtilisateur;
+            $_SESSION['logIn'] = "logAsReg";
             header("Location:inscriptionCourriel.php");
-
         }
         else if ($result->typeUtil ==="Administrateur") {
             $_SESSION["nomUser"] = $result->nomUtil;
             $_SESSION["prenomUser"] = $result->prenomUtil;
+            $_SESSION['loginUtilisateur'] = $result->loginUtilisateur;
+            $_SESSION['logIn'] = "logAsAdmin";
             header("Location:listeCourriel.php");
-
         }
     }
 }
